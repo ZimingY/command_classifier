@@ -21,9 +21,7 @@ def test(args, model, test_loader):
 	print("Test Accuracy: {:.2f}".format(correct/len(test_loader.dataset)))
 
 def main(args):
-	model = torch.load(args.model)
-	model = Model(device, method)
-	model.load_state_dict(cp)
+	model = torch.load(args.model).to(device)
 	test_data = AudioDataset(args.data, 'test')
 	test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size,
 						 shuffle=False, num_workers=num_workers)

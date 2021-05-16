@@ -22,7 +22,7 @@ To train a LSTM model, use `train=True` in `run.sh`, the model will be saved as 
 Test it by using `test=True` in `run.sh` 
 
 ## Result
-### No augmentation, use 300 audios per number
+#### No augmentation, use 300 audios per number
 <img src="figs/params-300.png" width="250px" height="140px"/>
 Loss:
 <img src="figs/loss-300.png" width="250px" height="140px"/>

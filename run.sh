@@ -1,6 +1,6 @@
 #!/bin/bash
 feature_extract=False
-train=True
+train=False
 test=True
 
 if [ "$feature_extract" == True ]; then
