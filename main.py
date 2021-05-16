@@ -6,25 +6,31 @@ from model import Model
 import argparse
 import mlflow
 from params import *
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 # param_dic = {"batch_size":32, "num_workers":4, "num_epoch":10, "lr":3e-3}
 # mlkeys = ["num_epoch", "lr", "model_hidden_size",  "model_layers"]
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
-def train(epoch, model, train_loader, criterion, optimizer, log_interval=100):
+def train(epoch, model, train_loader, criterion, optimizer, scheduler, log_interval=100):
 	"""
 	"""
 	model.train()
+	train_loss = 0
 	for i, (data, target) in enumerate(train_loader):
 		data, target = data.to(device), target.to(device)
 		optimizer.zero_grad()
 		logits = model(data)
 		loss = criterion(logits, target)
+		train_loss += loss.item()
 		loss.backward()
 		optimizer.step()
 		if i % log_interval == 0:
 			mlflow.log_metric("train loss", loss.item())
-			print("[{}] {}/{} loss: {:.2f}".format(epoch, i*data.shape[0], len(train_loader.dataset), loss.item()))
+			mlflow.log_metric("lr", optimizer.param_groups[0]['lr'])
+			print("[{}] {}/{} loss: {:.2f} lr: {}".format(epoch, i*data.shape[0], len(train_loader.dataset),
+														  loss.item(), optimizer.param_groups[0]['lr']))
+	return train_loss/len(train_loader.dataset)
 
 
 def validate(args, model, val_loader, criterion):
@@ -46,6 +52,7 @@ def validate(args, model, val_loader, criterion):
 
 
 def main(args):
+	scheduler = None
 	train_data = AudioDataset(args.input, 'train')
 	train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size, 
 									shuffle=True, num_workers=num_workers)
@@ -57,6 +64,9 @@ def main(args):
 	model = Model(device, method)
 	criterion = nn.NLLLoss()
 	optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+	if args.half_lr:
+		print("half learning rate on plateau")
+		scheduler = ReduceLROnPlateau(optimizer=optimizer, factor=0.8, patience=2)
 
 	with mlflow.start_run() as run:
 		mlflow.log_param("num_epoch", num_epoch)
@@ -65,7 +75,9 @@ def main(args):
 		mlflow.log_param("model_layers", model_layers)
 
 		for epoch in range(num_epoch):
-			train(epoch, model, train_loader, criterion, optimizer, 5)
+			train_loss = train(epoch, model, train_loader, criterion, optimizer, scheduler, 5)
+			if scheduler:
+				scheduler.step(train_loss)
 			mlflow.pytorch.log_model(model, "classifier")
 			validate(args, model, val_loader, criterion)
 		torch.save(model, f'{args.output}/classifier.pth')
@@ -75,6 +87,7 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument("--input", type=str, help="input data dir")
 	parser.add_argument("--output", type=str, help="output models/logs/ .. dir")
+	parser.add_argument("--half_lr", action='store_true')
 	args = parser.parse_args()
 	main(args)
 

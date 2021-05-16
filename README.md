@@ -15,12 +15,16 @@ Prepare the config file `params.py`
 
 Prepare the dataset by using `feature_extract=True` in `run.sh`
 
-Train a LSTM model by using `train=True` in `run.sh`, the model will be saved as `exp/classifier.pth`. Test it by using `test=True` in `run.sh` 
+Add `--half_lr` after `python3 prepare_dataset.py` if you want decrease the learning rate on plateau. 
+
+To train a LSTM model, use `train=True` in `run.sh`, the model will be saved as `exp/classifier.pth`. 
+
+Test it by using `test=True` in `run.sh` 
 
 ## Result
 ### No augmentation, use 300 audios per number
-<img src="figs/params-300.png" width="250px" height="150px"/>
+<img src="figs/params-300.png" width="250px" height="140px"/>
 Loss:
-<img src="figs/loss-300.png" width="250px" height="150px"/>
+<img src="figs/loss-300.png" width="250px" height="140px"/>
 Accuracy: 0.82
-<img src="figs/acc-300.png" width="250px" height="150px"/>
+<img src="figs/acc-300.png" width="250px" height="140px"/>

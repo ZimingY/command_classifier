@@ -1,6 +1,6 @@
 #!/bin/bash
 feature_extract=False
-train=False
+train=True
 test=True
 
 if [ "$feature_extract" == True ]; then
@@ -13,7 +13,7 @@ fi
 if [ "$train" == True ]; then
 	echo "training"
 	mkdir -p exp
-	python main.py --input data_exp --output exp
+	python main.py --input data_exp --output exp --half_lr
 fi
 
 if [ "$test" == True ]; then
