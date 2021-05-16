@@ -1,4 +1,4 @@
-train_count=300 # number of audios per number to train
+train_count=50 # number of audios per number to train
 val_count=50 # to validate
 test_count=50 # to test
 
@@ -12,7 +12,7 @@ model_hidden_size = 256
 model_layers = 3
 method = "mean"
 
-num_epoch =  10
+num_epoch =  50
 lr = 3e-3
 batch_size = 32
 num_workers = 4

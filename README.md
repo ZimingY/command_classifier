@@ -22,16 +22,40 @@ To train a LSTM model, use `train=True` in `run.sh`, the model will be saved as 
 Test it by using `test=True` in `run.sh` 
 
 ## Result
-#### No augmentation, use 300 audios per number
+#### No augmentation, use 300 audios per number to train
 | Name  | Value |
 | ------------- | ------------- |
-| lr  | 0.003  |
+| lr  | 0.003 with plateau |
 | model_layers  | 3  |
 | num_epoch  | 50  |
 
-<img src="figs/params-300.png" width="250px" height="140px"/>
-Loss & Accuracy: 0.82:
+Loss & Accuracy: 0.89:
 <p float="left">
   <img src="figs/loss-300.png" width="250px" height="140px"/>
   <img src="figs/acc-300.png" width="250px" height="140px"/>
 </p>
+Models : figs/model-300.pth
+
+### No augmentation, use 50 audios per number to train
+| Name  | Value |
+| ------------- | ------------- |
+| lr  | 0.003 with plateau |
+| model_layers  | 3  |
+| num_epoch  | 50  |
+
+Loss & Accuracy: 0.648:
+<p float="left">
+  <img src="figs/loss-50.png" width="250px" height="140px"/>
+  <img src="figs/acc-50.png" width="250px" height="140px"/>
+</p>
+Models : figs/model-50.pth
+
+### With augmentation, use 50 audios per number to train, add dropout
+| Name  | Value |
+| ------------- | ------------- |
+| lr  | 0.003 with plateau |
+| model_layers  | 3  |
+| num_epoch  | 50  |
+
+Accuracy: 0.69 (figures are in figs/)
+

@@ -10,6 +10,7 @@ class Model(nn.Module):
 							hidden_size=model_hidden_size,
 							num_layers=model_layers,
 							batch_first=True).to(device)
+		self.dropout = nn.Dropout(p=0.2)
 		self.fc = nn.Sequential(nn.Linear(model_hidden_size, model_hidden_size),
 								nn.LeakyReLU(),
 								nn.Linear(model_hidden_size, num_classes))
@@ -27,6 +28,7 @@ class Model(nn.Module):
 			out = hidden[-1]
 		else:
 			out = out.mean(dim=1)
+		out = self.dropout(out)
 		out = self.fc(out)
 		labels = self.softmax(out)
 		return labels
