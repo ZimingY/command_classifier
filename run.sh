@@ -1,6 +1,7 @@
 #!/bin/bash
-feature_extract=True
-train=True
+feature_extract=False
+train=False
+test=True
 
 if [ "$feature_extract" == True ]; then
 	echo "feature extraction"
@@ -12,6 +13,10 @@ fi
 if [ "$train" == True ]; then
 	echo "training"
 	mkdir -p exp
-	python main.py --input data_exp --output exp --method mean
+	python main.py --input data_exp --output exp
 fi
 
+if [ "$test" == True ]; then
+	echo "testing"
+	python test.py --data data_exp --model exp/classifier.pth
+fi

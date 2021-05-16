@@ -6,7 +6,6 @@ from model import Model
 import argparse
 import mlflow
 from params import *
-
 # param_dic = {"batch_size":32, "num_workers":4, "num_epoch":10, "lr":3e-3}
 # mlkeys = ["num_epoch", "lr", "model_hidden_size",  "model_layers"]
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -55,7 +54,7 @@ def main(args):
 	val_loader = torch.utils.data.DataLoader(val_data, batch_size=batch_size,
 						 shuffle=False, num_workers=num_workers)
 
-	model = Model(device, args.method)
+	model = Model(device, method)
 	criterion = nn.NLLLoss()
 	optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
@@ -69,13 +68,13 @@ def main(args):
 			train(epoch, model, train_loader, criterion, optimizer, 5)
 			mlflow.pytorch.log_model(model, "classifier")
 			validate(args, model, val_loader, criterion)
+		torch.save(model, f'{args.output}/classifier.pth')
 
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument("--input", type=str, help="input data dir")
 	parser.add_argument("--output", type=str, help="output models/logs/ .. dir")
-	parser.add_argument("--method", type=str, help="aggregation method for LSTM.")
 	args = parser.parse_args()
 	main(args)
 
