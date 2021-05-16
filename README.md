@@ -23,6 +23,12 @@ Test it by using `test=True` in `run.sh`
 
 ## Result
 #### No augmentation, use 300 audios per number
+| Name  | Value |
+| ------------- | ------------- |
+| lr  | 0.003  |
+| model_layers  | 3  |
+| num_epoch  | 50  |
+
 <img src="figs/params-300.png" width="250px" height="140px"/>
 Loss & Accuracy: 0.82:
 <p float="left">
