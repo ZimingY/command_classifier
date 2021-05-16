@@ -19,9 +19,9 @@ Train a LSTM model by using `train=True` in `run.sh`
 
 ## Result
 ### No augmentation, use 300 audios per number
-<img src="figs/params-300.png" width="200px" height="150px"/>
+<img src="figs/params-300.png" width="250px" height="150px"/>
 accuracy: 0.82
 Loss:
-<img src="figs/loss-300.png" width="200px" height="150px"/>
+<img src="figs/loss-300.png" width="250px" height="150px"/>
 Accuracy:
-<img src="figs/acc-300.png" width="200px" height="150px"/>
+<img src="figs/acc-300.png" width="250px" height="150px"/>
