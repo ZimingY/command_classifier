@@ -24,7 +24,8 @@ Test it by using `test=True` in `run.sh`
 ## Result
 #### No augmentation, use 300 audios per number
 <img src="figs/params-300.png" width="250px" height="140px"/>
-Loss:
-<img src="figs/loss-300.png" width="250px" height="140px"/>
-Accuracy: 0.82
-<img src="figs/acc-300.png" width="250px" height="140px"/>
+Loss & Accuracy: 0.82:
+<p float="left">
+  <img src="figs/loss-300.png" width="250px" height="140px"/>
+  <img src="figs/acc-300.png" width="250px" height="140px"/>
+</p>
